@@ -1,5 +1,6 @@
 import React from 'react'
 import { FaCloudSun } from 'react-icons/fa'
+import { Link } from 'react-router-dom'
 
 export default function Navbar() {
     return (
@@ -9,10 +10,8 @@ export default function Navbar() {
                     <FaCloudSun className="text-2xl" />
                     <span className="font-semibold">WeatherUI</span>
                 </div>
-                <div className="hidden md:flex gap-4 ml-6 text-sm text-slate-300">
-                    <a href="#">Home</a>
-                    <a href="#">About</a>
-                    <a href="#">Contact</a>
+                <div className="hidden md:flex gap-4 ml-6 text-sm text-slate-300">  
+                    <Link to={'/'}>Home</Link>
                 </div>
             </div>
         </nav>
