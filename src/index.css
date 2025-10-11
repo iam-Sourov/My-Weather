@@ -1,0 +1,27 @@
+@import "tailwindcss";
+
+:root {
+  --glass: rgba(255, 255, 255, 0.06);
+}
+
+html,
+body,
+#root {
+  height: 100%;
+}
+
+body {
+  @apply bg-slate-900 text-slate-100 font-sans;
+  font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
+}
+
+/* custom helpers */
+.weather-card {
+  background-color: rgba(255, 255, 255, 0.04);
+  @apply backdrop-blur-sm rounded-2xl border border-white/8;
+}
+
+.hour-card {
+  background-color: rgba(255, 255, 255, 0.03);
+  @apply rounded-xl p-3 text-center;
+}

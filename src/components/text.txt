@@ -1,0 +1,44 @@
+{
+    "coord": {
+        "lon": 90.389,
+        "lat": 23.7644
+    },
+    "weather": [
+        {
+            "id": 803,
+            "main": "Clouds",
+            "description": "broken clouds",
+            "icon": "04d"
+        }
+    ],
+    "base": "stations",
+    "main": {
+        "temp": 31.85,
+        "feels_like": 35.6,
+        "temp_min": 31.85,
+        "temp_max": 31.85,
+        "pressure": 1007,
+        "humidity": 56,
+        "sea_level": 1007,
+        "grnd_level": 1006
+    },
+    "visibility": 10000,
+    "wind": {
+        "speed": 0.65,
+        "deg": 27,
+        "gust": 1.05
+    },
+    "clouds": {
+        "all": 76
+    },
+    "dt": 1760168111,
+    "sys": {
+        "country": "BD",
+        "sunrise": 1760140427,
+        "sunset": 1760182581
+    },
+    "timezone": 21600,
+    "id": 1188909,
+    "name": "Sāmāir",
+    "cod": 200
+}
