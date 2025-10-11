@@ -3,6 +3,7 @@ import Navbar from '../components/Navbar'
 import SearchBar from '../components/SearchBar'
 import CurrentWeather from '../components/CurrentWeather'
 import { getCoords, getWeatherByCoords } from '../services/weatherService'
+import BG from '../assets/weather.jpg'
 
 export default function Home() {
     const [city, setCity] = useState('')
@@ -28,7 +29,7 @@ export default function Home() {
     useEffect(() => { fetchWeather('Dhaka,BD') }, [])
 
     return (
-        <div className="min-h-screen bg-[url('/assets/weather-bg.jpg')] bg-cover bg-center p-6">
+        <div className={`min-h-screen bg-[url('https://myradar.com/static/background-a089d87ba11e1a4c45a8efa960b86092.jpg')] bg-cover bg-center p-6`}>
             <div className="max-w-7xl mx-auto">
                 <Navbar />
                 <SearchBar onSearch={fetchWeather} />
