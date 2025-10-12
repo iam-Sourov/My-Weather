@@ -12,6 +12,7 @@ export default function Navbar() {
                 </div>
                 <div className="hidden md:flex gap-4 ml-6 text-sm text-slate-300">  
                     <Link to={'/'}>Home</Link>
+                    <Link to={'/about'}>About</Link>
                 </div>
             </div>
         </nav>
