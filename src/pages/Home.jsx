@@ -1,44 +1,72 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useCallback } from 'react'
 import SearchBar from '../components/SearchBar'
 import CurrentWeather from '../components/CurrentWeather'
+import Forecast from '../components/Forecast'
 import Spinner from '../components/Spinner'
-import { getCoords, getWeatherByCoords } from '../services/weatherService'
-
+import { getCoords, getWeatherByCoords, get7DayForecast } from '../services/weatherService'
 
 export default function Home() {
     const [city, setCity] = useState('')
     const [weatherData, setWeatherData] = useState(null)
+    const [forecastData, setForecastData] = useState([])
     const [loading, setLoading] = useState(false)
 
-    const fetchWeather = async (fetchData) => {
+    const fetchWeather = useCallback(async (input) => {
         try {
             setLoading(true)
-            setWeatherData(null) 
-            const coords = await getCoords(fetchData)
-            if (!coords) throw new Error('City not found')
-            const data = await getWeatherByCoords(coords.lat, coords.lon)
+            setWeatherData(null)
+            setForecastData([])
+
+            let coords
+            if (typeof input === 'object' && input.lat && input.lon) {
+                coords = input
+            } else {
+                coords = await getCoords(input)
+                if (!coords) throw new Error('City not found')
+            }
+
+            const [weather, forecast] = await Promise.all([
+                getWeatherByCoords(coords.lat, coords.lon),
+                get7DayForecast(coords.lat, coords.lon),
+            ])
+
             setCity(`${coords.name}, ${coords.country}`)
-            setTimeout(() => {
-                setWeatherData(data)
-                setLoading(false)
-            }, 800) 
+            setWeatherData(weather)
+            setForecastData(forecast)
         } catch (err) {
-            alert(err.message)
             console.error(err)
+            alert(err.message)
+        } finally {
             setLoading(false)
         }
-    }
-    useEffect(() => { fetchWeather('Dhaka,BD') }, [])
+    }, [])
+
+    useEffect(() => {
+        if (!navigator.geolocation) {
+            fetchWeather('Dhaka,BD')
+            return
+        }
+
+        navigator.geolocation.getCurrentPosition(
+            (pos) => {
+                const { latitude, longitude } = pos.coords
+                fetchWeather({ lat: latitude, lon: longitude })
+            },
+            () => fetchWeather('Dhaka,BD'),
+            { enableHighAccuracy: true, timeout: 5000 }
+        )
+    }, [fetchWeather])
 
     return (
-        <div>
-            <div className="max-w-7xl mx-auto">
-                <SearchBar onSearch={fetchWeather} loading={loading} />
-                {loading && <Spinner></Spinner>}
-                {weatherData && (
+        <div className="max-w-7xl mx-auto px-4 pb-8">
+            <SearchBar onSearch={fetchWeather} loading={loading} />
+            {loading && <Spinner />}
+            {weatherData && (
+                <>
                     <CurrentWeather city={city} weather={weatherData} />
-                )}
-            </div>
+                    <Forecast forecastData={forecastData} />
+                </>
+            )}
         </div>
     )
 }
